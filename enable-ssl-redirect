@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+from=$((`grep -n "# ssl-redirect on" /etc/nginx/conf.d/zz-default.conf | cut -d : -f 1 | awk 'NR==1'`+1))
+to=$((`grep -n "# ssl-redirect on" /etc/nginx/conf.d/zz-default.conf | cut -d : -f 1 | awk 'NR==2'`-1))
+sed -i "$from,$to s/^#\?//" /etc/nginx/conf.d/zz-default.conf
+
+from=$((`grep -n "# ssl-redirect off" /etc/nginx/conf.d/zz-default.conf | cut -d : -f 1 | awk 'NR==1'`+1))
+to=$((`grep -n "# ssl-redirect off" /etc/nginx/conf.d/zz-default.conf | cut -d : -f 1 | awk 'NR==2'`-1))
+sed -i "$from,$to s/^#\?/#/" /etc/nginx/conf.d/zz-default.conf
